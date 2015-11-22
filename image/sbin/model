@@ -13,7 +13,10 @@ Simurga::connect_db();
 
 add() if $command eq 'add';
 all() if $command eq 'all';
-if ($command eq 'stitle') { stitle(@ARGV); }
+stitle(@ARGV) if $command eq 'stitle';
+csv(@ARGV) if $command eq 'csv';
+
+Simurga::commit();
 
 
 sub add
@@ -23,6 +26,28 @@ sub add
 	$data->{'title_ru'} = Simurga::prompt("Title (in russian)");
 
 	Simurga::Model->create($data);
+}
+
+sub csv
+{
+	my $file_name = shift;
+	my $fd;
+	open($fd, $file_name) || die $!;
+	my $count = 0;
+	foreach my $line(<$fd>)
+	{
+		chomp($line);
+		my ($id, $short_title, $title) = split(/;/, $line);
+		$id += 0;
+		next unless $id;
+
+		my $data = { 'id' => $id, 'title_ru' => $title, 'short_title_ru' => $short_title };
+		Simurga::Model->create($data);
+		$count += 1;
+	}
+	close($fd);
+
+	print "$count models imported.\n";
 }
 
 sub all

@@ -1,7 +1,7 @@
 package Simurga;
 
 require Exporter;
-@EXPORT_OK = qw(connect_db prompt prompt_long prompt_bool print_current_long);
+@EXPORT_OK = qw(connect_db commit prompt prompt_long prompt_bool print_current_long);
 
 use strict;
 use DBI;
@@ -37,12 +37,17 @@ sub connect_db
 	$dsn .= ";port=" . $config->{'port'} if $config->{'port'};
 	$dsn .= ";mysql_socket=" . $config->{'unix_socket'} if $config->{'unix_socket'};
 
-	my $dbh = DBI->connect($dsn, $config->{'user'}, $config->{'passwd'}, {RaiseError => 1, mysql_enable_utf8 => 1});
+	my $dbh = DBI->connect($dsn, $config->{'user'}, $config->{'passwd'}, {RaiseError => 1, mysql_enable_utf8 => 1, AutoCommit => 0});
 	die $! unless $dbh;
 
 	$DB = $dbh;
 	$DATA = $data_dir;
 	return $dbh;
+}
+
+sub commit
+{
+	$DB->commit;
 }
 
 

@@ -13,7 +13,10 @@ Simurga::connect_db();
 
 add() if $command eq 'add';
 all() if $command eq 'all';
-if ($command eq 'show') {show(shift @ARGV);}
+show(@ARGV) if $command eq 'show';
+csv(@ARGV) if $command eq 'csv';
+
+Simurga::commit();
 
 
 sub add
@@ -25,6 +28,29 @@ sub add
 
 	my $color = Simurga::Color->create($data);
 	print "Color id: " . $color->id . "\n";
+}
+
+sub csv
+{
+	my $file_name = shift;
+	my $fd;
+	open($fd, $file_name) || die $!;
+
+	my $count = 0;
+	foreach my $line(<$fd>)
+	{
+		chomp($line);
+		my ($name, $title, $code) = split(/;/, $line);
+		next unless $name;
+
+		my $data = { 'name' => $name, 'code' => $code, 'desc_ru' => $title };
+		Simurga::Color->create($data);
+		$count += 1;
+	}
+
+	close($fd);
+
+	print "$count colors imported.\n";
 }
 
 sub all

@@ -14,6 +14,9 @@ Simurga::connect_db();
 add() if $command eq 'add';
 all() if $command eq 'all';
 move(@ARGV) if $command eq 'move';
+csv(@ARGV) if $command eq 'csv';
+
+Simurga::commit();
 
 
 sub add
@@ -28,6 +31,44 @@ sub add
 
 	my $item = Simurga::ModelColor->create($data);
 	print "Item id: " . $item->id . "\n";
+}
+
+sub csv
+{
+	my $file_name = shift;
+	my $fd;
+	open($fd, $file_name) || die $!;
+	my $count = 0;
+	my @lines = <$fd>;
+	close($fd);
+
+	my $colors = {};
+
+	my $count;
+	foreach my $line(reverse @lines)
+	{
+		chomp($line);
+		my ($id, $color_name, $img1, $img2, $img3, $img4, $sizes, $price) = split(/;/, $line);
+		$id += 0;
+		next unless $id;
+
+		$colors->{$color_name} = Simurga::Color->by_name($color_name) unless exists $colors->{$color_name};
+		my $color = $colors->{$color_name};
+
+		my $data = { 'model_id' => $id, 'color_id' => $color->id, 'sizes' => $sizes, 'price_ru' => $price,
+			'material_id' => 1, # TODO
+			'desc_ru' => '' };
+		my $item = Simurga::ModelColor->create($data);
+
+		$item->add_image($img1) if $img1 && -r $img1;
+		$item->add_image($img2) if $img2 && -r $img2;
+		$item->add_image($img3) if $img3 && -r $img3;
+		$item->add_image($img4) if $img4 && -r $img4;
+
+		$count++;
+	}
+
+	print "$count items imported.\n";
 }
 
 sub all
