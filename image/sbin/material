@@ -1,0 +1,36 @@
+#!/usr/bin/perl -CS
+
+BEGIN {
+	use File::Basename;
+	push(@INC, dirname $0);
+}
+
+use Simurga;
+
+my $command = shift @ARGV;
+
+Simurga::connect_db();
+
+add() if $command eq 'add';
+all() if $command eq 'all';
+
+
+sub add
+{
+	my $data = {};
+	$data->{'name'} = Simurga::prompt("Material name");
+	$data->{'desc_ru'} = Simurga::prompt("Description (in russian)");
+
+	my $material = Simurga::Material->create($data);
+	print "Material id: " . $material->id . "\n";
+}
+
+sub all
+{
+	my @materials = Simurga::Material->all;
+	foreach my $material (@materials)
+	{
+		print $material->id . " | " . $material->name . " | " . $material->desc_ru . "\n";
+	}
+}
+

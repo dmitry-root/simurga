@@ -1,0 +1,222 @@
+* {
+	margin: 0;
+	padding: 0;
+	outline: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html { min-height: 100% !important; }
+body {
+	background: #fefefe;
+	color: #424242;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'Helvetica Neue', sans-serif;
+	max-width: 1080px;
+	margin: 0 auto !important;
+	float: none !important;
+	/*height: auto !important;*/
+	height: 100%;
+	min-height: 100%;
+}
+
+body > div.navigation > nav {
+	overflow: hidden;
+	text-align: left;
+	font-family: 'Century Gothic', sans-serif;
+}
+
+body > div.navigation > nav > ul {
+	list-style-type: none;
+}
+
+body > div.navigation > nav > ul > li > label,
+body > div.navigation > nav > ul > li > a {
+	/*display: block;*/
+	color: #96989A;
+	text-decoration: none;
+	font-size: large;
+	/*font-weight: 500;*/
+	height: 50px;
+	/* letter-spacing: .5rem; */
+	line-height: 50px;
+	/*text-shadow: 0 1px 1px rgba(0,0,0,.1);*/
+	text-transform: uppercase;
+	/*transition: all .1s ease;*/
+}
+
+body > div.navigation > nav > ul > li > label:hover,
+body > div.navigation > nav > ul > li > a:hover,
+body > div.navigation > nav > ul > li > a:active,
+body > div.navigation > nav > ul > li.active > label,
+body > div.navigation > nav > ul > li.active > a {
+	color: #dd8f3e;
+	text-decoration: none;
+}
+
+/* === Horizontal screen === */
+
+body.horz > article {
+	margin-left: 30%;
+	padding-top: 5em;
+}
+
+body.horz > div.navigation {
+	margin: 0;
+	width: auto;
+	padding-left: 50px;
+	height: 100%;
+	min-height: 100%;
+	position: fixed;
+}
+
+body.horz > div.navigation > div.logo {
+	margin: 5em auto;
+}
+
+body.horz > div.navigation > nav > ul > li {
+	display: block;
+}
+
+body.horz > div.navigation > nav > ul > li > label,
+body.horz > div.navigation > nav > ul > li > a {
+	display: block;
+}
+
+
+/* === Vertical screen === */
+
+body.vert > article {
+	text-align: center;
+}
+
+body.vert > div.navigation {
+	margin: 0;
+	width: 100%;
+	margin: 0 auto !important;
+	padding: 0.5rem 0;
+}
+
+body.vert > div.navigation > div.logo {
+	display: block;
+	text-align: center;
+}
+
+body.vert > div.navigation > nav {
+	text-align: center;
+}
+
+body.vert > div.navigation > nav > ul {
+	width: auto;
+	display: inline-block;
+	margin: 0 auto;
+}
+
+body.vert > div.navigation > nav > ul > li {
+	text-align: center;
+	display: inline-block;
+	padding: 0 3rem;
+}
+
+
+/* === Lookbook slides === */
+
+.lookbook > .slide {
+	position: relative;
+	padding-bottom: 2em;
+}
+
+.lookbook > .slide img {
+	width: 100%;
+	height: auto;
+}
+
+
+/* === Collection === */
+
+.collection {
+	display: inline-block;
+	padding: 0.5em;
+	margin: 0.5em;
+	text-align: center;
+	border: #96989A 1px solid;
+	font-family: 'Century Gothic', sans-serif;
+}
+
+.collection:hover {
+	border: #dd8f3e 1px solid;
+}
+
+.collection > a,
+.collection > a:visited {
+	text-decoration: none;
+	color: #96989A;
+	display: block;
+}
+
+.collection > a:hover,
+.collection > a:active {
+	text-decoration: none;
+	color: #dd8f3e;
+}
+
+.collection > a > .price {
+	color: #dd8f3e;
+}
+
+
+/* === Model page === */
+
+.model-photo-wrapper {
+	display: inline-block;
+	width: 50%;
+	padding: 0.5em;
+	text-align: center;
+	vertical-align: top;
+}
+
+.model-photo-wrapper > .photo {
+	padding: 1em;
+	margin-bottom: 1em;
+	border: #96989A 2px solid;
+}
+
+.model-photo-wrapper > .photo img {
+	width: 100%;
+	height: auto;
+}
+
+.model-photo-wrapper > .photo > a {
+	cursor: default;
+}
+
+.model-photo-wrapper > .previews {
+	text-align: left;
+}
+
+.model-photo-wrapper > .previews img {
+	display: inline-block;
+	width: 30%;
+	height: auto;
+}
+
+.model-description {
+	display: inline-block;
+	width: 49%;
+	padding-left: 2em;
+}
+
+.model-description > p {
+	margin-top: 0.5em;
+}
+
+.model-description > div {
+	margin-top: 1em;
+}
+
+
+/* == Static pages == */
+.static > p {
+	margin-top: 0.5em;
+}

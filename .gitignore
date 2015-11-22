@@ -26,3 +26,10 @@
 *.exe
 *.out
 *.app
+
+*.kdev4
+prototype/
+tmp/
+image/etc/db*.conf
+image/bin/
+image/pub/model/*-*

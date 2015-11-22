@@ -1,0 +1,47 @@
+#!/usr/bin/perl -CS
+
+BEGIN {
+	use File::Basename;
+	push(@INC, dirname $0);
+}
+
+use Simurga;
+
+my $command = shift @ARGV;
+
+Simurga::connect_db();
+
+add() if $command eq 'add';
+all() if $command eq 'all';
+move(@ARGV) if $command eq 'move';
+
+
+sub add
+{
+	my $data = {};
+	$data->{'model_id'} = Simurga::prompt("Model serial number");
+	$data->{'color_id'} = Simurga::Color->prompt->id;
+	$data->{'material_id'} = Simurga::Material->prompt->id;
+	$data->{'sizes'} = Simurga::prompt("Sizes (american, comma-separated)");
+	$data->{'price_ru'} = Simurga::prompt("Price (RUR)");
+	$data->{'desc_ru'} = Simurga::prompt_long("Description (russian, HTML allowed)");
+
+	my $item = Simurga::ModelColor->create($data);
+	print "Item id: " . $item->id . "\n";
+}
+
+sub all
+{
+	my @items = Simurga::ModelColor->all;
+	foreach my $item(@items)
+	{
+		print $item->id . " | " . $item->model_id . " | " . $item->model->name . " | " . $item->color->name . "\n";
+	}
+}
+
+sub move
+{
+	my $from = shift(@_) + 0;
+	my $to = shift(@_) + 0;
+	Simurga::ModelColor->by_id($from)->move_to($to);
+}

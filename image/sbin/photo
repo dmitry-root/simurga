@@ -1,0 +1,37 @@
+#!/usr/bin/perl -CS
+
+BEGIN {
+	use File::Basename;
+	push(@INC, dirname $0);
+}
+
+use Simurga;
+
+my $command = shift @ARGV;
+
+Simurga::connect_db();
+
+add(@ARGV) if $command eq 'add';
+remove(@ARGV) if $command eq 'remove';
+
+
+sub add
+{
+	my $model_id = shift(@_) + 0;
+	my $color_name = shift;
+	my $photo = shift;
+
+	my $item = Simurga::ModelColor->by_model_and_color($model_id, $color_name);
+	$item->add_image($photo);
+}
+
+sub remove
+{
+	my $model_id = shift(@_) + 0;
+	my $color_name = shift;
+
+	my $item = Simurga::ModelColor->by_model_and_color($model_id, $color_name);
+	my $photo_no = Simurga::prompt("Photo to remove (1 .. " . $item->num_images . ")") - 1;
+	die "Invalid photo number" unless $photo_no >= 0 && $photo_no < $item->num_images;
+	$item->remove_image($photo_no);
+}

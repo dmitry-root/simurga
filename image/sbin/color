@@ -1,0 +1,47 @@
+#!/usr/bin/perl -CS
+
+BEGIN {
+	use File::Basename;
+	push(@INC, dirname $0);
+}
+
+use Simurga;
+
+my $command = shift @ARGV;
+
+Simurga::connect_db();
+
+add() if $command eq 'add';
+all() if $command eq 'all';
+if ($command eq 'show') {show(shift @ARGV);}
+
+
+sub add
+{
+	my $data = {};
+	$data->{'name'} = Simurga::prompt("Color name");
+	$data->{'code'} = Simurga::prompt("Color code (HTML notation without #)");
+	$data->{'desc_ru'} = Simurga::prompt("Description (in russian)");
+
+	my $color = Simurga::Color->create($data);
+	print "Color id: " . $color->id . "\n";
+}
+
+sub all
+{
+	my @colors = Simurga::Color->all;
+	foreach my $color(@colors)
+	{
+		print $color->id . " | " . $color->name . " | " . $color->code . "\n";
+	}
+}
+
+sub show
+{
+	my $name = shift;
+	my $color = Simurga::Color->by_name($name);
+	print "Color id: " . $color->id . "\n";
+	print "Color code: " . $color->code . "\n";
+	print "Description: " . $color->desc_ru . "\n";
+}
+

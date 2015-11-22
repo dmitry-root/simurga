@@ -1,0 +1,43 @@
+#!/usr/bin/perl -CS
+
+BEGIN {
+	use File::Basename;
+	push(@INC, dirname $0);
+}
+
+use Simurga;
+
+my $command = shift @ARGV;
+
+Simurga::connect_db();
+
+add() if $command eq 'add';
+all() if $command eq 'all';
+if ($command eq 'stitle') { stitle(@ARGV); }
+
+
+sub add
+{
+	my $data = {};
+	$data->{'id'} = Simurga::prompt("Serial number");
+	$data->{'title_ru'} = Simurga::prompt("Title (in russian)");
+
+	Simurga::Model->create($data);
+}
+
+sub all
+{
+	my @models = Simurga::Model->all;
+	foreach my $model (@models)
+	{
+		print $model->id . " | " . $model->title_ru . "\n";
+	}
+}
+
+sub stitle
+{
+	my $id = shift;
+	my $model = Simurga::Model->by_id($id);
+	$model->short_title_ru( Simurga::prompt("Short title (in russian)") );
+	$model->save;
+}
