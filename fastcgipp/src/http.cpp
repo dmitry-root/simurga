@@ -432,6 +432,8 @@ template<class charT> void Fastcgipp::Http::Environment<charT>::parsePostsUrlEnc
 	char* valueStart=0;
 	size_t valueSize;
 
+	if (contentLength == 0)
+		return;
 	for(char* i=postBuffer.get(); i<=postBuffer.get()+contentLength; ++i)
 	{
 		if(*i == '=' && nameStart && !valueStart)

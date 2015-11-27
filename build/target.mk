@@ -67,11 +67,11 @@ else
 install:
 endif
 
-$(OUTPUT_FN): $(OBJECTS) $(DEPS)
+$(OUTPUT_FN): $(OBJECTS) $(LIBS) $(DEPS)
 ifeq ($(TYPE), lib)
 	$(AR) cru $@ $^
 else
-	$(TLINK) $(LDFLAGS) $(LIBDIRS) -o $@ $(OBJECTS) $(LIBADD)
+	$(TLINK) $(LDFLAGS) $(LIBDIRS) -o $@ $(OBJECTS) $(LIBS) $(LIBADD)
 	$(TSTRIP)
 endif
 
