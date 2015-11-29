@@ -4,12 +4,22 @@
 #include "httpservice.hpp"
 
 
-static const unsigned int connection_threads = 5;
+static const unsigned int connection_threads = 1;
 static const unsigned int mysql_default_port = 3306;
+static const int execute_retry_count = 3;
 
 
 Database::Database() :
 	connection_(connection_threads)
+{
+	connect();
+}
+
+Database::~Database()
+{
+}
+
+void Database::connect()
 {
 	DirConfig config(get_data_dir() + "/etc/db.conf");
 
@@ -32,15 +42,23 @@ Database::Database() :
 	);
 }
 
-Database::~Database()
-{
-}
-
 void Database::execute(const std::string& text, const ASql::Data::Set* parameters, const ASql::Data::Set* result_template, ASql::Data::SetContainer* results)
 {
-	ASql::MySQL::Statement statement(connection_, text.c_str(), text.length(),
-		parameters, result_template);
-	statement.execute(parameters, results, 0, 0, true, ::rand() % connection_threads);
+	for (int retry = 0; retry < execute_retry_count; retry++)
+	{
+		try
+		{
+			ASql::MySQL::Statement statement(connection_, text.c_str(), text.length(),
+				parameters, result_template);
+			statement.execute(parameters, results, 0, 0, true, ::rand() % connection_threads);
+		}
+		catch (const ASql::MySQL::Error& e)
+		{
+			if (retry == execute_retry_count - 1)
+				throw e;
+			connect();
+		}
+	}
 }
 
 Database& Database::instance()

@@ -31,6 +31,8 @@ private:
 	Database();
 	~Database();
 
+	void connect();
+
 	void execute(const std::string& text, const ASql::Data::Set* parameters, const ASql::Data::Set* result_template, ASql::Data::SetContainer* results);
 
 private:
