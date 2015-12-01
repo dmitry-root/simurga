@@ -26,9 +26,9 @@ ga('send', 'pageview');
 			<nav>
 				<ul>
 					<li class="<%lookbook_active%>"><a href="/lookbook">Lookbook</a></li>
-					<li class="<%collection_active%>"><a href="/collection">Collection</a></li>
-					<li class="<%phylosophy_active%>"><a href="/phylosophy">Phylosophy</a></li>
-					<li class="<%contacts_active%>"><a href="/contacts">Contacts</a></li>
+					<li class="<%collection_active%>"><a href="/collection">Коллекция</a></li>
+					<li class="<%phylosophy_active%>"><a href="/phylosophy">Философия</a></li>
+					<li class="<%contacts_active%>"><a href="/contacts">Контакты</a></li>
 				</ul>
 			</nav>
 		</div>
