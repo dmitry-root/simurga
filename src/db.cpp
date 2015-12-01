@@ -51,6 +51,7 @@ void Database::execute(const std::string& text, const ASql::Data::Set* parameter
 			ASql::MySQL::Statement statement(connection_, text.c_str(), text.length(),
 				parameters, result_template);
 			statement.execute(parameters, results, 0, 0, true, ::rand() % connection_threads);
+			break;
 		}
 		catch (const ASql::MySQL::Error& e)
 		{
