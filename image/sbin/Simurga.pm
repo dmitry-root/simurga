@@ -619,10 +619,12 @@ sub save
 		$DB->do(
 			"update `model_color` set " .
 			"`model_id` = ?, `color_id` = ?, `num_images` = ?, `sizes` = ?, `material_id` = ?, " .
-			"`price_ru` = ?, `price_en` = ?, `desc_ru` = ?, `desc_en` = ? " .
+			"`price_ru` = ?, `price_en` = ?, `special_price_ru` = ?, `special_price_en` = ?, `desc_ru` = ?, `desc_en` = ? " .
 			"where `id` = ?", undef,
 			$self->{'model_id'}, $self->{'color_id'}, $self->{'num_images'}, $self->{'sizes'}, $self->{'material_id'},
-			$self->{'price_ru'}, $self->{'price_en'}, $self->{'desc_ru'}, $self->{'desc_en'},
+			$self->{'price_ru'}, $self->{'price_en'},
+			$self->{'special_price_ru'}, $self->{'special_price_en'},
+			$self->{'desc_ru'}, $self->{'desc_en'},
 			$self->{'id'});
 	}
 	else
@@ -630,9 +632,11 @@ sub save
 		$self->{'id'} = next_id;
 		$DB->do(
 			"insert into `model_color` (`id`, `model_id`, `color_id`, `num_images`, `sizes`, `material_id`, " .
-			"`price_ru`, `price_en`, `desc_ru`, `desc_en`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", undef,
+			"`price_ru`, `price_en`, `special_price_ru`, `special_price_en, `desc_ru`, `desc_en`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", undef,
 			$self->{'id'}, $self->{'model_id'}, $self->{'color_id'}, $self->{'num_images'}, $self->{'sizes'}, $self->{'material_id'},
-			$self->{'price_ru'}, $self->{'price_en'}, $self->{'desc_ru'}, $self->{'desc_en'});
+			$self->{'price_ru'}, $self->{'price_en'},
+			$self->{'special_price_ru'}, $self->{'special_price_en'},
+			$self->{'desc_ru'}, $self->{'desc_en'});
 	}
 }
 
@@ -707,6 +711,10 @@ sub num_images { return shift->{'num_images'}; }
 sub sizes { return size_to_string(shift->{'sizes'}); }
 sub price_ru { return Simurga::_get_save(shift, 'price_ru', shift); }
 sub price_en { return Simurga::_get_save(shift, 'price_en', shift); }
+sub special_price_ru { return Simurga::_get_save(shift, 'special_price_ru', shift); }
+sub special_price_en { return Simurga::_get_save(shift, 'special_price_en', shift); }
+sub remove_special_price_ru { delete shift->{'special_price_ru'}; }
+sub remove_special_price_en { delete shift->{'special_price_en'}; }
 sub desc_ru { return Simurga::_get_save(shift, 'desc_ru', shift); }
 sub desc_en { return Simurga::_get_save(shift, 'desc_en', shift); }
 

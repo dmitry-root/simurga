@@ -14,7 +14,9 @@ Simurga::connect_db();
 add() if $command eq 'add';
 all() if $command eq 'all';
 move(@ARGV) if $command eq 'move';
+sprice(@ARGV) if $command eq 'sprice';
 csv(@ARGV) if $command eq 'csv';
+scsv(@ARGV) if $command eq 'scsv';
 
 Simurga::commit();
 
@@ -71,6 +73,37 @@ sub csv
 	print "$count items imported.\n";
 }
 
+sub scsv
+{
+	my $file_name = shift;
+	my $fd;
+	open($fd, $file_name) || die $!;
+	my $count = 0;
+	my @lines = <$fd>;
+	close($fd);
+
+	my $count;
+	foreach my $line(reverse @lines)
+	{
+		chomp($line);
+		next unless $line;
+
+		my ($art, $sprice) = split(/;/, $line, 2);
+		my ($id, $color) = split(/-/, $arg, 2);
+
+		my $item = Simurga::ModelColor->by_model_and_color($id, $color);
+		if ($sprice ne '-' && $sprice)
+		{
+			$item->special_price_ru($sprice + 0);
+		}
+		else
+		{
+			$item->remove_special_price_ru();
+		}
+		$item->save();
+	}
+}
+
 sub all
 {
 	my @items = Simurga::ModelColor->all;
@@ -85,4 +118,21 @@ sub move
 	my $from = shift(@_) + 0;
 	my $to = shift(@_) + 0;
 	Simurga::ModelColor->by_id($from)->move_to($to);
+}
+
+sub sprice
+{
+	my $art = shift;
+	my $price = shift;
+	my ($id, $color) = split(/-/, $art, 2);
+	my $item = Simurga::ModelColor->by_model_and_color($id, $color);
+	if ($price eq '-' || !$price)
+	{
+		$item->remove_special_price_ru;
+	}
+	else
+	{
+		$item->special_price_ru($price + 0);
+	}
+	$item->save;
 }
