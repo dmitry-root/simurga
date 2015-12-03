@@ -181,7 +181,7 @@ sub by_name
 
 	my $sth = $DB->prepare('select * from `color` where `name` = ? limit 1');
 	$sth->execute($name);
-	die "Invalid name" unless $sth->rows;
+	die "Invalid color name '$name'" unless $sth->rows;
 	my $result = $class->new($sth->fetchrow_hashref);
 	$sth->finish();
 	return $result;
