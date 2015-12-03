@@ -89,7 +89,7 @@ sub scsv
 		next unless $line;
 
 		my ($art, $sprice) = split(/;/, $line, 2);
-		my ($id, $color) = split(/-/, $arg, 2);
+		my ($id, $color) = split(/-/, $art, 2);
 
 		my $item = Simurga::ModelColor->by_model_and_color($id, $color);
 		if ($sprice ne '-' && $sprice)
