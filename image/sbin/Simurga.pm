@@ -596,6 +596,7 @@ sub by_model_and_color
 	my $color = Simurga::Color->by_name($color_name);
 	my $sth = $DB->prepare('select * from `model_color` where `model_id` = ? and `color_id` = ? limit 1');
 	$sth->execute($model_id, $color->id);
+	die "Unknown model id '$model_id-$color_name'" unless $sth->rows;
 	my $result = $class->new($sth->fetchrow_hashref);
 	$sth->finish();
 	return $result;
