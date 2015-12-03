@@ -142,6 +142,24 @@ body.vert > div.navigation > nav > ul > li {
 	text-align: center;
 	border: #96989A 1px solid;
 	font-family: 'Century Gothic', sans-serif;
+	position: relative;
+}
+
+.collection > .specialprice {
+	position: absolute;
+	right: 0;
+	top: 1em;
+	width: 4em;
+	height: 4em;
+	line-height: 4em;
+	border-radius: 2em;
+	text-align: center;
+	vertical-align: middle;
+	background: #d6ab80;
+	font-family: 'Century Gothic', sans-serif;
+	font-weight: bold;
+	color: white;
+	font-size: 0.7em;
 }
 
 .collection:hover {
@@ -163,6 +181,10 @@ body.vert > div.navigation > nav > ul > li {
 
 .collection > a > .price {
 	color: #dd8f3e;
+}
+
+.strike {
+	text-decoration: line-through;
 }
 
 
@@ -213,6 +235,11 @@ body.vert > div.navigation > nav > ul > li {
 
 .model-description > div {
 	margin-top: 1em;
+}
+
+.model-description .specialprice {
+	font-weight: bold;
+	color: #e96301;
 }
 
 

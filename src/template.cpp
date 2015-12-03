@@ -64,6 +64,10 @@ void PageTemplate::yield_token(const ArgumentList& arguments, const ArrayArgumen
 			yield_foreach(arguments, token, result);
 			break;
 
+		case Token_If:
+			yield_if(arguments, arrayItem, token, result);
+			break;
+
 		default:
 			throw std::runtime_error("invalid template structure");
 	}
@@ -94,6 +98,16 @@ void PageTemplate::yield_foreach(const ArgumentList& arguments, const TokenPtr& 
 			yield_tokens(arguments, 0, ftoken->sep, result);
 		yield_tokens(arguments, &array->get(i), ftoken->body, result);
 	}
+}
+
+void PageTemplate::yield_if(const ArgumentList& arguments, const ArrayArgument::Item* arrayItem, const TokenPtr& token, std::string& result) const
+{
+	const IfToken* iftoken = static_cast<const IfToken*>(token.get());
+	const std::string& value = get_variable(arguments, arrayItem, iftoken->data);
+	if (value.empty())
+		yield_tokens(arguments, arrayItem, iftoken->if_false, result);
+	else
+		yield_tokens(arguments, arrayItem, iftoken->if_true, result);
 }
 
 void PageTemplate::parse(const std::string& data)
@@ -134,28 +148,40 @@ PageTemplate::TokenPtr PageTemplate::get_next_token(const std::string& data, std
 	if (body == "#sep")
 		return std::make_shared<Token>(Token_Separator);
 
-	if (body.substr(0, 4) != "#for")
-		throw std::runtime_error("invalid template special tag");
+	if (body == "#else")
+		return std::make_shared<Token>(Token_Else);
 
-	std::shared_ptr<ForeachToken> result = std::make_shared<ForeachToken>(trim(body.substr(5)));
-	bool add_to_sep = false;
-	while (true)
+	if (body.substr(0, 3) == "#if")
+	{
+		std::shared_ptr<IfToken> result = std::make_shared<IfToken>(trim(body.substr(4)));
+		const TokenType end = parse_subtokens(data, pos, result->if_true, Token_End, Token_Else);
+		if (end == Token_Else)
+			parse_subtokens(data, pos, result->if_false, Token_End);
+		return std::static_pointer_cast<Token, IfToken>(result);
+	}
+
+	if (body.substr(0, 4) == "#for")
+	{
+		std::shared_ptr<ForeachToken> result = std::make_shared<ForeachToken>(trim(body.substr(5)));
+		const TokenType end = parse_subtokens(data, pos, result->body, Token_End, Token_Separator);
+		if (end == Token_Separator)
+			parse_subtokens(data, pos, result->sep, Token_End);
+		return std::static_pointer_cast<Token, ForeachToken>(result);
+	}
+
+	throw std::runtime_error("invalid template special tag");
+}
+
+PageTemplate::TokenType PageTemplate::parse_subtokens(const std::string& data, std::size_t& pos, TokenList& result, TokenType end1, TokenType end2) const
+{
+	while (pos < data.length())
 	{
 		TokenPtr token = get_next_token(data, pos);
-		if (token->type == Token_Separator) {
-			if (add_to_sep)
-				throw std::runtime_error("two separators in foreach");
-			add_to_sep = true;
-		} else if (token->type == Token_End)
-			break;
-		else if (token->type == Token_Foreach)
-			throw std::runtime_error("embedding foreach is prohibited for now");
-		if (add_to_sep)
-			result->sep.push_back(token);
-		else
-			result->body.push_back(token);
+		if (token->type == end1 || token->type == end2)
+			return token->type;
+		result.push_back(token);
 	}
-	return std::static_pointer_cast<Token, ForeachToken>(result);
+	throw std::runtime_error("unexpected eof");
 }
 
 

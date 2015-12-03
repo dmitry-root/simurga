@@ -27,6 +27,7 @@ namespace
 		unsigned int sizes;
 		ASql::Data::Nullable<std::string> material_desc;
 		unsigned int price;
+		ASql::Data::Nullable<unsigned int> special_price;
 		std::string desc;
 
 		ASQL_BUILDSET(
@@ -38,6 +39,7 @@ namespace
 			(sizes)
 			(material_desc)
 			(price)
+			(special_price)
 			(desc)
 		);
 	};
@@ -164,6 +166,8 @@ void ModelHttpObject::get(const std::string& id)
 	add_argument(args, "price", price(model.price));
 	add_argument(args, "desc", model.desc);
 	add_argument(args, "default_image", image_path(Image_Big, 0));
+	if (!model.special_price.nullness)
+		add_argument(args, "special_price", price(model.special_price.object));
 
 	std::shared_ptr<ArrayArgument> images = std::make_shared<ArrayArgument>();
 	for (unsigned int i = 0; i < model.num_images; i++)

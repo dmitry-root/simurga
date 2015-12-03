@@ -12,12 +12,14 @@ namespace
 		std::string color_name;
 		std::string title;
 		unsigned int price;
+		ASql::Data::Nullable<unsigned int> special_price;
 
 		ASQL_BUILDSET(
 			(model_id)
 			(color_name)
 			(title)
 			(price)
+			(special_price)
 		);
 	};
 
@@ -44,6 +46,8 @@ void CollectionHttpObject::get(const std::string& id)
 		(*item)["color_name"] = view.color_name;
 		(*item)["title"] = view.title;
 		(*item)["price"] = price(view.price);
+		if (!view.special_price.nullness)
+			(*item)["special_price"] = price(view.special_price.object);
 		collection->add(item);
 	}
 

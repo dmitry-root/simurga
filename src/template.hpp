@@ -59,11 +59,14 @@ public:
 private:
 	enum TokenType
 	{
+		Token_None,
 		Token_String,
 		Token_Variable,
 		Token_Foreach,
 		Token_Separator,
-		Token_End
+		Token_End,
+		Token_If,
+		Token_Else
 	};
 
 	struct Token
@@ -82,14 +85,23 @@ private:
 		TokenList sep;
 	};
 
+	struct IfToken : Token
+	{
+		IfToken(const std::string& data) : Token(Token_If, data) {}
+		TokenList if_true;
+		TokenList if_false;
+	};
+
 private:
 	void parse(const std::string& data);
 	TokenPtr get_next_token(const std::string& data, std::size_t& pos) const;
+	TokenType parse_subtokens(const std::string& data, std::size_t& pos, TokenList& result, TokenType end1, TokenType end2 = Token_None) const;
 
 	void yield_token(const ArgumentList& arguments, const ArrayArgument::Item* arrayItem, const TokenPtr& token, std::string& result) const;
 	void yield_tokens(const ArgumentList& arguments, const ArrayArgument::Item* arrayItem, const TokenList& tokens, std::string& result) const;
 	std::string get_variable(const ArgumentList& arguments, const ArrayArgument::Item* arrayItem, const std::string& var) const;
 	void yield_foreach(const ArgumentList& arguments, const TokenPtr& token, std::string& result) const;
+	void yield_if(const ArgumentList& arguments, const ArrayArgument::Item* arrayItem, const TokenPtr& token, std::string& result) const;
 
 private:
 	TokenList body_;
