@@ -109,7 +109,7 @@ sub all
 	my @items = Simurga::ModelColor->all;
 	foreach my $item(@items)
 	{
-		print $item->id . " | " . $item->model_id . " | " . $item->model->name . " | " . $item->color->name . "\n";
+		print $item->id . " | " . $item->model_id . "-" . $item->color->name . " | " . $item->model->title_ru . "\n";
 	}
 }
 
