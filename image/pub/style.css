@@ -12,7 +12,7 @@ body {
 	background: #fefefe;
 	color: #424242;
 	-webkit-font-smoothing: antialiased;
-	font-family: 'Helvetica Neue', sans-serif;
+	font-family: 'Century Gothic', sans-serif;
 	max-width: 1080px;
 	margin: 0 auto !important;
 	float: none !important;
@@ -244,6 +244,14 @@ body.vert > div.navigation > nav > ul > li {
 
 
 /* == Static pages == */
-.static > p {
+.static > p,
+.static > h1,
+.static > h2,
+.static > h3 {
 	margin-top: 0.5em;
+	margin-top: 0.5em;
+}
+
+.static {
+	padding-bottom: 2em;
 }

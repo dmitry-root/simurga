@@ -20,5 +20,5 @@
 				<p class="price"><strong>Цена</strong>:
 					<%#if special_price%><span class="strike"><%price%> руб.</span> <span class="specialprice"><%special_price%> руб.</span><%#else%><%price%> руб.<%#end%>
 				</p>
-				<p class="buy"><a href="/contacts">Купить</a></p>
+				<p class="buy"><a href="/howtobuy">Купить</a></p>
 			</div>

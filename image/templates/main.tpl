@@ -29,6 +29,7 @@ ga('send', 'pageview');
 					<li class="<%collection_active%>"><a href="/collection">Коллекция</a></li>
 					<li class="<%phylosophy_active%>"><a href="/phylosophy">Философия</a></li>
 					<li class="<%contacts_active%>"><a href="/contacts">Контакты</a></li>
+					<li class="<%howtobuy_active%>"><a href="/howtobuy">Как купить</a></li>
 				</ul>
 			</nav>
 		</div>

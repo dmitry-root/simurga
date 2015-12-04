@@ -166,6 +166,7 @@ void HttpObjectList::add_standard_objects()
 {
 	add<StaticPageHttpObject>("/phylosophy", false);
 	add<StaticPageHttpObject>("/contacts", false);
+	add<StaticPageHttpObject>("/howtobuy", false);
 	add<LookbookHttpObject>("/lookbook", false);
 	add<LookbookHttpObject>("", false);
 	add<CollectionHttpObject>("/collection", false);
