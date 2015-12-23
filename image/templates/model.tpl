@@ -16,7 +16,12 @@
 				<p class="color"><strong>Цвет</strong>: <%color_desc%></p>
 				<p class="size"><strong>Размер</strong>: <%sizes%></p>
 				<p class="formula"><strong>Состав</strong>: <%material_desc%></p>
-				<div><%desc%></div>
+				<div>
+					<%desc%>
+					<p>Купить одежду для йоги в Новосибирске можно в нашем Интернет-магазине.</p>
+					<p>Доставка по России и всему миру.</p>
+					<p>В Новосибирске работает курьер: Вы можете заказать до 10 моделей одежды на примерку, и выбрать то, что Вам подойдет.</p>
+				</div>
 				<p class="price"><strong>Цена</strong>:
 					<%#if special_price%><span class="strike"><%price%> руб.</span> <span class="specialprice"><%special_price%> руб.</span><%#else%><%price%> руб.<%#end%>
 				</p>
