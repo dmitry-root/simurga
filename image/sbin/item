@@ -17,6 +17,7 @@ move(@ARGV) if $command eq 'move';
 sprice(@ARGV) if $command eq 'sprice';
 csv(@ARGV) if $command eq 'csv';
 scsv(@ARGV) if $command eq 'scsv';
+desc(@ARGV) if $command eq 'desc';
 
 Simurga::commit();
 
@@ -100,6 +101,20 @@ sub scsv
 		{
 			$item->remove_special_price_ru();
 		}
+		$item->save();
+	}
+}
+
+sub desc
+{
+	my $id = shift;
+	my ($model_id, $color) = split(/-/, $id);
+	my $items = $color ? [Simurga::ModelColor->by_model_and_color($model_id, $color)] : Simurga::ModelColor->by_model($model_id);
+
+	my $desc = Simurga::prompt_html("description for " . scalar(@$items) . " items");
+	foreach my $item (@$items)
+	{
+		$item->desc_ru($desc);
 		$item->save();
 	}
 }

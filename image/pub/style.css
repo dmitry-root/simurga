@@ -229,12 +229,10 @@ body.vert > div.navigation > nav > ul > li {
 	padding-left: 2em;
 }
 
-.model-description > p {
+.model-description > p,
+.model-description > div,
+.model-description > div > p {
 	margin-top: 0.5em;
-}
-
-.model-description > div {
-	margin-top: 1em;
 }
 
 .model-description .specialprice {

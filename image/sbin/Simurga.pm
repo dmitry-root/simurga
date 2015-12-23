@@ -1,7 +1,7 @@
 package Simurga;
 
 require Exporter;
-@EXPORT_OK = qw(connect_db commit prompt prompt_long prompt_bool print_current_long);
+@EXPORT_OK = qw(connect_db commit prompt prompt_long prompt_html prompt_bool print_current_long);
 
 use strict;
 use DBI;
@@ -91,6 +91,13 @@ sub prompt_long
 	print "\n";
 
 	return $result;
+}
+
+sub prompt_html
+{
+	my $result = prompt_long(@_);
+	my @lines = split(/\s*\n\s*\n\s*/, $result);
+	return "<p>\n" . join("\n</p>\n<p>\n", @lines) . "\n</p>\n";
 }
 
 sub prompt_bool
@@ -598,6 +605,22 @@ sub by_model_and_color
 	$sth->execute($model_id, $color->id);
 	die "Unknown model id '$model_id-$color_name'" unless $sth->rows;
 	my $result = $class->new($sth->fetchrow_hashref);
+	$sth->finish();
+	return $result;
+}
+
+sub by_model
+{
+	my $class = shift;
+	my $model_id = shift(@_) + 0;
+
+	my $sth = $DB->prepare('select * from `model_color` where `model_id` = ?');
+	$sth->execute($model_id);
+	my $result = [];
+	while (my $row = $sth->fetchrow_hashref)
+	{
+		push(@$result, $class->new($row));
+	}
 	$sth->finish();
 	return $result;
 }
