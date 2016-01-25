@@ -656,7 +656,7 @@ sub save
 		$self->{'id'} = next_id;
 		$DB->do(
 			"insert into `model_color` (`id`, `model_id`, `color_id`, `num_images`, `sizes`, `material_id`, " .
-			"`price_ru`, `price_en`, `special_price_ru`, `special_price_en, `desc_ru`, `desc_en`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", undef,
+			"`price_ru`, `price_en`, `special_price_ru`, `special_price_en`, `desc_ru`, `desc_en`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", undef,
 			$self->{'id'}, $self->{'model_id'}, $self->{'color_id'}, $self->{'num_images'}, $self->{'sizes'}, $self->{'material_id'},
 			$self->{'price_ru'}, $self->{'price_en'},
 			$self->{'special_price_ru'}, $self->{'special_price_en'},
