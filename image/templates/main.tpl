@@ -3,7 +3,9 @@
 	<head>
 		<base href="<%base_uri%>" />
 		<meta charset="UTF-8" />
-		<title><%title%> &mdash; Simurga</title>
+		<title><%title%> &mdash; Одежда для йоги и фитнеса Simurga yogawear</title>
+		<meta name="description" content="Спортивные костюмы для йоги, фитнеса и танцев, Новосибирск. Купить дизайнерскую одежду для йоги Simurga." />
+		<meta name="keywords" content="йога, фитнес, костюмы, одежда, спорт, гимнастика, одежда для фитнеса, одежда для йоги, фитнес одежда, форма для фитнеса, костюм для йоги, костюм для фитнеса, комбинезон" />
 		<link rel="stylesheet" href="/css/slippry.css" type="text/css" />
 		<link rel="stylesheet" href="/style.css" type="text/css" />
 		<script src="/js/jquery.min.1.10.2.js" type="text/javascript"></script>
